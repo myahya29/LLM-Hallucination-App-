@@ -1,0 +1,6 @@
+{
+  "name": "LLM Hallucination Test",
+  "description": "Compare LLM models for facts, hallucinations, and code accuracy.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
