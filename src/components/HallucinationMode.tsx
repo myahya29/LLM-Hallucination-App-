@@ -3,10 +3,10 @@ import {
   AlertOctagon,
   AlertTriangle,
   CheckCircle2,
+  HelpCircle,
   Loader2,
   MousePointerClick,
   Play,
-  RotateCcw,
   Sparkles,
   Square,
   XCircle,
@@ -284,22 +284,22 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
 
   return (
     <div className="space-y-6 max-w-full">
-      {/* Question Selector Tabs */}
+      {/* Question Selector Card */}
       <div
         style={{
           backgroundColor: 'var(--bg-card)',
           borderColor: 'var(--border-card)',
         }}
-        className="border rounded-xl p-5 shadow-sm transition-colors"
+        className="border rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-xs transition-colors max-w-full"
       >
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
           <div>
             <h3
               style={{ color: 'var(--text-primary)' }}
               className="text-base font-bold flex items-center gap-2"
             >
-              <AlertOctagon className="w-4 h-4 text-[#F5A524]" />
-              Facts & Hallucination Test
+              <AlertOctagon className="w-4 h-4 text-[#F5A524] shrink-0" />
+              <span>Facts & Hallucination Test</span>
             </h3>
             <p
               style={{ color: 'var(--text-secondary)' }}
@@ -309,43 +309,43 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {!isExecuting ? (
               <>
                 <button
                   type="button"
                   onClick={() => handleRunQuestion(currentQuestion)}
                   disabled={apiModels.length === 0}
-                  className="flex items-center gap-1.5 px-3.5 py-2 bg-[#19B6A6] hover:bg-[#169f91] text-slate-950 font-bold text-xs rounded-lg shadow-sm transition-all disabled:opacity-50"
+                  className="min-h-[44px] flex items-center gap-2 px-4 py-2 bg-[#19B6A6] hover:bg-[#169f91] active:scale-[0.98] text-slate-950 font-bold text-xs rounded-xl shadow-xs transition-all duration-180 disabled:opacity-40 cursor-pointer"
                 >
-                  <Play className="w-3.5 h-3.5 fill-slate-950" />
-                  Run Selected Question
+                  <Play className="w-3.5 h-3.5 fill-slate-950 shrink-0" />
+                  <span>Run Selected Question</span>
                 </button>
                 <button
                   type="button"
                   onClick={handleRunAllQuestions}
                   disabled={apiModels.length === 0}
-                  className="flex items-center gap-1.5 px-3.5 py-2 bg-[#F5A524] hover:bg-[#e09419] text-slate-950 font-bold text-xs rounded-lg shadow-sm transition-all disabled:opacity-50"
+                  className="min-h-[44px] flex items-center gap-2 px-4 py-2 bg-[#F5A524] hover:bg-[#e09419] active:scale-[0.98] text-slate-950 font-bold text-xs rounded-xl shadow-xs transition-all duration-180 disabled:opacity-40 cursor-pointer"
                 >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  Run All 5 Sequentially
+                  <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                  <span>Run All 5 Sequentially</span>
                 </button>
               </>
             ) : (
               <button
                 type="button"
                 onClick={handleStop}
-                className="flex items-center gap-1.5 px-3.5 py-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-lg shadow-sm transition-all"
+                className="min-h-[44px] flex items-center gap-2 px-4 py-2 bg-rose-600 hover:bg-rose-700 active:scale-[0.98] text-white font-bold text-xs rounded-xl shadow-xs transition-all duration-180 cursor-pointer"
               >
-                <Square className="w-3.5 h-3.5 fill-white" />
-                Stop
+                <Square className="w-3.5 h-3.5 fill-white shrink-0" />
+                <span>Stop</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* 5 Preset Question Selector */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2.5 mb-4">
+        {/* 5 Preset Questions: Responsive grid with min 44px tap targets */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 mb-4">
           {PRESET_QUESTIONS.map((q, idx) => {
             const isSelected = q.id === selectedQuestionId;
             const isFake = q.type === 'fake';
@@ -358,30 +358,30 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
                   backgroundColor: isSelected ? 'var(--bg-surface)' : 'var(--bg-card)',
                   borderColor: isSelected ? '#19B6A6' : 'var(--border-card)',
                 }}
-                className={`text-left p-2.5 rounded-lg border transition-all ${
-                  isSelected ? 'ring-1 ring-[#19B6A6]' : 'hover:opacity-90'
+                className={`text-left p-3 rounded-xl border transition-all duration-180 min-h-[64px] flex flex-col justify-between cursor-pointer active:scale-[0.99] ${
+                  isSelected ? 'ring-2 ring-[#19B6A6]' : 'hover:border-[#19B6A6]/40'
                 }`}
               >
-                <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center justify-between mb-1.5 gap-1">
                   <span
                     style={{ color: 'var(--text-secondary)' }}
                     className="text-[10px] font-mono font-bold"
                   >
-                    Q{idx + 1}
+                    Question {idx + 1}
                   </span>
                   <span
-                    className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
+                    className={`text-[9px] font-bold px-1.5 py-0.5 rounded-md border ${
                       isFake
-                        ? 'bg-red-500/15 text-red-600 dark:text-red-400 border border-red-500/30'
-                        : 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30'
+                        ? 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/30'
+                        : 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
                     }`}
                   >
-                    {isFake ? 'Fake' : 'Real'}
+                    {isFake ? 'Fake Trap' : 'Real Fact'}
                   </span>
                 </div>
                 <div
                   style={{ color: 'var(--text-primary)' }}
-                  className="text-xs font-semibold line-clamp-2"
+                  className="text-xs font-semibold line-clamp-2 leading-snug"
                 >
                   {q.prompt}
                 </div>
@@ -396,19 +396,22 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
             backgroundColor: 'var(--bg-surface)',
             borderColor: 'var(--border-card)',
           }}
-          className="border rounded-lg p-3.5"
+          className="border rounded-xl p-4 max-w-full min-w-0"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="min-w-0 flex-1">
               <div
                 style={{ color: 'var(--text-secondary)' }}
-                className="text-xs font-mono mb-0.5"
+                className="text-xs font-mono mb-1 font-semibold"
               >
-                Prompt:
+                Selected Prompt:
               </div>
               <div
-                style={{ color: 'var(--text-primary)' }}
-                className="text-sm font-bold tracking-wide"
+                style={{
+                  color: 'var(--text-primary)',
+                  overflowWrap: 'anywhere',
+                }}
+                className="text-sm sm:text-base font-bold tracking-tight break-words"
               >
                 "{currentQuestion.prompt}"
               </div>
@@ -420,23 +423,23 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
                 borderColor: 'var(--border-card)',
                 color: 'var(--text-primary)',
               }}
-              className="text-xs border px-3 py-1.5 rounded-md shrink-0"
+              className="text-xs border px-3.5 py-2 rounded-xl shrink-0 shadow-xs"
             >
               {currentQuestion.type === 'real' ? (
                 <span>
                   Expected keyword:{' '}
-                  <strong className="text-[#19B6A6]">{currentQuestion.expectedKeyword}</strong>
+                  <strong className="text-[#19B6A6] font-bold">{currentQuestion.expectedKeyword}</strong>
                 </span>
               ) : (
-                <span className="text-amber-600 dark:text-amber-400 font-medium">
-                  Expected: State it does not exist / cannot verify
+                <span className="text-amber-600 dark:text-amber-400 font-semibold">
+                  Expected: Refuse / State it does not exist
                 </span>
               )}
             </div>
           </div>
           <p
             style={{ color: 'var(--text-secondary)' }}
-            className="text-[11px] mt-2 font-mono"
+            className="text-xs mt-2.5 font-mono leading-relaxed"
           >
             {currentQuestion.explanation}
           </p>
@@ -444,9 +447,9 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
 
         {/* Live Running Indicator */}
         {isExecuting && (
-          <div className="mt-3 flex items-center gap-2 text-xs text-[#19B6A6] bg-[#19B6A6]/10 border border-[#19B6A6]/30 px-3 py-2 rounded-lg animate-pulse">
-            <Loader2 className="w-4 h-4 animate-spin shrink-0" />
-            <span>{runningLabel} (2s delay between calls)</span>
+          <div className="mt-3.5 min-h-[44px] flex items-center gap-2.5 text-xs text-[#19B6A6] bg-[#19B6A6]/10 border border-[#19B6A6]/30 px-3.5 py-2.5 rounded-xl">
+            <Loader2 className="w-4 h-4 animate-spin shrink-0 text-[#19B6A6]" />
+            <span className="font-medium">{runningLabel} (2s delay between calls)</span>
           </div>
         )}
 
@@ -454,24 +457,24 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
         {currentResults.length > 0 && (
           <div
             style={{ borderColor: 'var(--border-subtle)' }}
-            className="mt-3 pt-3 border-t flex flex-wrap items-center justify-between gap-3 text-xs"
+            className="mt-3.5 pt-3.5 border-t flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs"
           >
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 flex-wrap">
               {currentQuestion.type === 'real' ? (
                 <>
-                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
                     Correct: <strong>{correctCount}</strong>
                   </span>
-                  <span className="text-red-600 dark:text-red-400 font-semibold">
+                  <span className="text-rose-600 dark:text-rose-400 font-semibold bg-rose-500/10 px-2.5 py-1 rounded-lg border border-rose-500/20">
                     Wrong: <strong>{wrongCount}</strong>
                   </span>
                 </>
               ) : (
                 <>
-                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
                     Honest: <strong>{honestCount}</strong>
                   </span>
-                  <span className="text-red-600 dark:text-red-400 font-bold px-2 py-0.5 rounded border border-red-500/30 bg-red-500/10">
+                  <span className="text-white font-extrabold bg-red-600 px-2.5 py-1 rounded-lg shadow-xs">
                     HALLUCINATED: {hallucinatedCount}
                   </span>
                 </>
@@ -479,15 +482,15 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
             </div>
             <span
               style={{ color: 'var(--text-muted)' }}
-              className="text-[11px]"
+              className="text-[11px] flex items-center gap-1 font-medium"
             >
-              * Click any verdict button below to toggle or adjust
+              * Click any verdict button below to toggle or adjust manually
             </span>
           </div>
         )}
       </div>
 
-      {/* Model Cards Grid for current question */}
+      {/* Model Cards Grid: 1 col on phone, 2 on tablet, 3 on laptop */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {enabledModels.map((model) => {
           const resultKey = `${currentQuestion.id}_${model.id}`;
@@ -511,21 +514,25 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
                   : isRetrying
                   ? '#F5A524'
                   : isHallucinated
-                  ? 'rgba(239, 68, 68, 0.7)'
+                  ? '#EF4444'
                   : isHonestOrCorrect
-                  ? 'rgba(16, 185, 129, 0.5)'
+                  ? '#10B981'
                   : 'var(--border-card)',
               }}
-              className={`flex flex-col border rounded-xl p-4 transition-all shadow-sm max-w-full overflow-hidden ${
-                isCalling ? 'ring-2 ring-[#19B6A6]' : isRetrying ? 'ring-2 ring-[#F5A524]' : ''
+              className={`flex flex-col border rounded-xl sm:rounded-2xl p-4 sm:p-5 transition-all duration-180 shadow-xs max-w-full min-w-0 ${
+                isCalling
+                  ? 'ring-2 ring-[#19B6A6] bg-[#19B6A6]/5'
+                  : isRetrying
+                  ? 'ring-2 ring-[#F5A524] bg-[#F5A524]/5'
+                  : 'hover:border-[#19B6A6]/40'
               }`}
             >
               {/* Card Header with Model & Interactive Verdict */}
               <div
                 style={{ borderColor: 'var(--border-subtle)' }}
-                className="flex items-start justify-between gap-2 pb-2.5 mb-2.5 border-b"
+                className="flex items-start justify-between gap-2 pb-3 mb-3 border-b min-w-0"
               >
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <h4
                     style={{ color: 'var(--text-primary)' }}
                     className="text-sm font-bold truncate"
@@ -540,57 +547,69 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
                   </span>
                 </div>
 
-                {/* Verdict Pill Badge with Click to Override */}
+                {/* Verdict Pill Badge with Click to Override - Minimum 44px tap target */}
                 {result?.status === 'success' && verdict && (
                   <button
                     type="button"
                     onClick={() => handleToggleVerdict(currentQuestion, model.id)}
-                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-bold transition-all shadow-sm shrink-0 cursor-pointer ${
+                    className={`min-h-[44px] flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-180 shadow-xs shrink-0 cursor-pointer select-none active:scale-95 ${
                       verdict === 'correct'
                         ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30'
                         : verdict === 'honest'
                         ? 'bg-[#19B6A6]/20 text-[#0c7c71] dark:text-[#19B6A6] border border-[#19B6A6]/40 hover:bg-[#19B6A6]/30'
                         : verdict === 'hallucinated'
-                        ? 'bg-red-600 text-white font-extrabold border border-red-500 hover:bg-red-500'
-                        : 'bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-500/40 hover:bg-amber-500/30'
+                        ? 'bg-red-600 text-white font-extrabold border border-red-700 hover:bg-red-700'
+                        : 'bg-rose-500/20 text-rose-700 dark:text-rose-400 border border-rose-500/40 hover:bg-rose-500/30'
                     }`}
                     title="Click to toggle this verdict"
+                    aria-label={`Verdict: ${verdict}. Click to toggle.`}
                   >
-                    {verdict === 'correct' && <CheckCircle2 className="w-3.5 h-3.5" />}
-                    {verdict === 'honest' && <CheckCircle2 className="w-3.5 h-3.5" />}
-                    {verdict === 'wrong' && <XCircle className="w-3.5 h-3.5" />}
-                    {verdict === 'hallucinated' && <AlertTriangle className="w-3.5 h-3.5" />}
+                    {verdict === 'correct' && <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-300" />}
+                    {verdict === 'honest' && <CheckCircle2 className="w-4 h-4 shrink-0 text-[#19B6A6]" />}
+                    {verdict === 'wrong' && <XCircle className="w-4 h-4 shrink-0 text-rose-600" />}
+                    {verdict === 'hallucinated' && <AlertTriangle className="w-4 h-4 shrink-0 text-white" />}
 
                     <span className="uppercase tracking-wider">
                       {verdict === 'hallucinated' ? 'HALLUCINATED' : verdict}
                     </span>
-                    <MousePointerClick className="w-3 h-3 opacity-60 ml-0.5" />
+                    <MousePointerClick className="w-3.5 h-3.5 opacity-70 ml-0.5" />
                   </button>
                 )}
               </div>
 
               {/* Card Content */}
-              <div className="flex-1 min-h-[140px] flex flex-col justify-between max-w-full">
+              <div className="flex-1 min-h-[140px] flex flex-col justify-between max-w-full min-w-0">
                 {isCalling && (
-                  <div className="flex flex-col items-center justify-center py-8 text-[#19B6A6] space-y-2">
-                    <Loader2 className="w-6 h-6 animate-spin" />
-                    <span className="text-xs font-mono font-medium">Verifying fact...</span>
+                  <div className="flex flex-col items-center justify-center py-8 text-[#19B6A6] space-y-3">
+                    <Loader2 className="w-7 h-7 animate-spin text-[#19B6A6]" />
+                    <span className="text-xs font-mono font-medium">Verifying answer...</span>
+                    <div className="w-full space-y-2 mt-2 px-2 animate-pulse opacity-60">
+                      <div className="h-3 bg-[#19B6A6]/20 rounded-md w-full" />
+                      <div className="h-3 bg-[#19B6A6]/20 rounded-md w-4/5" />
+                    </div>
                   </div>
                 )}
 
                 {isRetrying && (
-                  <div className="flex flex-col items-center justify-center py-8 text-[#F5A524] space-y-2">
-                    <Loader2 className="w-6 h-6 animate-spin" />
+                  <div className="flex flex-col items-center justify-center py-8 text-[#F5A524] space-y-3">
+                    <Loader2 className="w-7 h-7 animate-spin text-[#F5A524]" />
                     <span className="text-xs font-mono font-medium">Auto-retrying model...</span>
+                    <div className="w-full space-y-2 mt-2 px-2 animate-pulse opacity-60">
+                      <div className="h-3 bg-[#F5A524]/20 rounded-md w-full" />
+                      <div className="h-3 bg-[#F5A524]/20 rounded-md w-3/4" />
+                    </div>
                   </div>
                 )}
 
                 {!isCalling && !isRetrying && result?.status === 'error' && (
-                  <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-xs text-red-600 dark:text-red-400 space-y-1">
-                    <div className="font-bold">Execution Failed</div>
+                  <div className="p-3.5 bg-rose-500/10 border border-rose-500/30 rounded-xl text-xs text-rose-600 dark:text-rose-400 space-y-1.5 max-w-full min-w-0">
+                    <div className="flex items-center gap-1.5 font-bold">
+                      <XCircle className="w-4 h-4 shrink-0" />
+                      <span>Execution Failed</span>
+                    </div>
                     <p
                       style={{ overflowWrap: 'anywhere' }}
-                      className="font-mono text-[11px] break-words"
+                      className="font-mono text-[11px] leading-relaxed break-words max-w-full"
                     >
                       {result.errorMessage}
                     </p>
@@ -598,20 +617,20 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
                 )}
 
                 {!isCalling && !isRetrying && result?.answer && (
-                  <div className="space-y-2 max-w-full">
-                    <p
+                  <div className="space-y-2.5 max-w-full min-w-0">
+                    <div
                       style={{
                         color: 'var(--text-primary)',
                         overflowWrap: 'anywhere',
                         wordBreak: 'break-word',
                       }}
-                      className="text-xs leading-relaxed whitespace-pre-wrap max-w-full"
+                      className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap max-w-full break-words"
                     >
                       {result.answer}
-                    </p>
+                    </div>
                     {result.isOverridden && (
-                      <div className="text-[10px] text-amber-600 dark:text-amber-300 font-mono italic">
-                        ✎ Adjusted manually
+                      <div className="text-[11px] text-amber-600 dark:text-amber-300 font-mono italic">
+                        ✎ Adjusted manually by user
                       </div>
                     )}
                   </div>
@@ -619,8 +638,8 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
 
                 {/* Manual Model Input (ChatGPT / Claude) */}
                 {isManual && !result?.answer && (
-                  <div className="space-y-2.5 my-auto">
-                    <div className="text-xs text-indigo-500 dark:text-indigo-300 font-medium">
+                  <div className="space-y-2.5 my-auto max-w-full min-w-0">
+                    <div className="text-xs text-indigo-500 dark:text-indigo-300 font-semibold">
                       Paste response from {model.name}:
                     </div>
                     <textarea
@@ -640,7 +659,7 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
                         borderColor: 'var(--border-card)',
                         color: 'var(--text-primary)',
                       }}
-                      className="w-full border rounded p-2 text-xs focus:outline-none focus:border-indigo-400 font-mono"
+                      className="w-full border rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-400/20 focus:border-indigo-400 font-mono min-h-[90px]"
                     />
                     <button
                       type="button"
@@ -648,7 +667,7 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
                       disabled={
                         !(manualInputs[`${currentQuestion.id}_${model.id}`] || '').trim()
                       }
-                      className="w-full py-1.5 text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white rounded transition-colors disabled:opacity-40"
+                      className="min-h-[44px] w-full py-2.5 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] text-white rounded-xl transition-all duration-180 disabled:opacity-40 cursor-pointer flex items-center justify-center shadow-xs"
                     >
                       Save & Check
                     </button>
@@ -658,9 +677,10 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
                 {!isCalling && !isRetrying && !result && !isManual && (
                   <div
                     style={{ color: 'var(--text-muted)' }}
-                    className="flex flex-col items-center justify-center py-8 text-xs"
+                    className="flex flex-col items-center justify-center py-8 text-xs space-y-2 select-none"
                   >
-                    <span>Not evaluated yet</span>
+                    <HelpCircle className="w-6 h-6 opacity-40" />
+                    <span className="font-medium">Not evaluated yet</span>
                   </div>
                 )}
               </div>
@@ -672,10 +692,10 @@ export const HallucinationMode: React.FC<HallucinationModeProps> = ({
                     borderColor: 'var(--border-subtle)',
                     color: 'var(--text-muted)',
                   }}
-                  className="pt-2 mt-2 border-t flex items-center justify-between text-[10px] font-mono"
+                  className="pt-2.5 mt-2.5 border-t flex items-center justify-between text-[10px] font-mono"
                 >
                   <span>Latency: {(result.latencyMs / 1000).toFixed(2)}s</span>
-                  <span>Click badge to toggle</span>
+                  <span className="hidden sm:inline">Click badge to toggle verdict</span>
                 </div>
               )}
             </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle2, Eye, EyeOff, KeyRound, ShieldAlert, Sparkles } from 'lucide-react';
+import { CheckCircle2, Eye, EyeOff, KeyRound, ShieldAlert, Sparkles, Trash2 } from 'lucide-react';
 import { ApiKeys } from '../utils/api';
 
 interface KeyBarProps {
@@ -26,34 +26,34 @@ export const KeyBar: React.FC<KeyBarProps> = ({
         backgroundColor: 'var(--bg-card)',
         borderColor: 'var(--border-card)',
       }}
-      className="border rounded-xl p-4 mb-6 shadow-sm transition-colors"
+      className="border rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-xs transition-colors max-w-full"
     >
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+      <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
         {/* Keys Input Section */}
-        <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3.5">
           {/* OpenRouter Key */}
-          <div>
-            <div className="flex items-center justify-between mb-1.5">
+          <div className="min-w-0">
+            <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
               <label
                 style={{ color: 'var(--text-primary)' }}
                 className="text-xs font-semibold flex items-center gap-1.5"
               >
-                <KeyRound className="w-3.5 h-3.5 text-[#19B6A6]" />
-                OpenRouter API key
+                <KeyRound className="w-3.5 h-3.5 text-[#19B6A6] shrink-0" />
+                <span>OpenRouter API key</span>
               </label>
-              <div className="flex items-center gap-2">
+              <div>
                 {keys.openRouterKey.trim() ? (
-                  <span className="text-[11px] text-[#19B6A6] flex items-center gap-1 font-medium">
-                    <CheckCircle2 className="w-3 h-3" /> Ready
+                  <span className="text-[11px] text-[#19B6A6] flex items-center gap-1 font-medium bg-[#19B6A6]/10 px-2 py-0.5 rounded-md border border-[#19B6A6]/20">
+                    <CheckCircle2 className="w-3 h-3 shrink-0" /> Ready
                   </span>
                 ) : (
-                  <span className="text-[11px] text-amber-500 flex items-center gap-1 font-medium">
-                    <ShieldAlert className="w-3 h-3" /> Required for 6 free models
+                  <span className="text-[11px] text-amber-500 dark:text-amber-400 flex items-center gap-1 font-medium bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">
+                    <ShieldAlert className="w-3 h-3 shrink-0" /> Required for 6 free models
                   </span>
                 )}
               </div>
             </div>
-            <div className="relative">
+            <div className="relative flex items-center">
               <input
                 type={showOpenRouter ? 'text' : 'password'}
                 value={keys.openRouterKey}
@@ -66,7 +66,7 @@ export const KeyBar: React.FC<KeyBarProps> = ({
                   borderColor: 'var(--border-card)',
                   color: 'var(--text-primary)',
                 }}
-                className="w-full border focus:border-[#19B6A6] focus:outline-none rounded-lg px-3 py-2 pr-10 text-xs font-mono transition-colors"
+                className="w-full min-h-[44px] border focus:border-[#19B6A6] focus:ring-2 focus:ring-[#19B6A6]/20 focus:outline-none rounded-xl px-3.5 py-2.5 pr-12 text-xs font-mono transition-all duration-180"
                 autoComplete="off"
                 spellCheck={false}
               />
@@ -74,37 +74,38 @@ export const KeyBar: React.FC<KeyBarProps> = ({
                 type="button"
                 onClick={() => setShowOpenRouter(!showOpenRouter)}
                 style={{ color: 'var(--text-secondary)' }}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 hover:opacity-80 transition-opacity p-1"
+                className="absolute right-1 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center hover:text-[var(--text-primary)] transition-colors cursor-pointer rounded-lg"
                 title={showOpenRouter ? 'Hide key' : 'Show key'}
+                aria-label={showOpenRouter ? 'Hide OpenRouter API key' : 'Show OpenRouter API key'}
               >
-                {showOpenRouter ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                {showOpenRouter ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
           </div>
 
           {/* Gemini Key */}
-          <div>
-            <div className="flex items-center justify-between mb-1.5">
+          <div className="min-w-0">
+            <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
               <label
                 style={{ color: 'var(--text-primary)' }}
                 className="text-xs font-semibold flex items-center gap-1.5"
               >
-                <KeyRound className="w-3.5 h-3.5 text-[#F5A524]" />
-                Gemini API key
+                <KeyRound className="w-3.5 h-3.5 text-[#F5A524] shrink-0" />
+                <span>Gemini API key</span>
               </label>
-              <div className="flex items-center gap-2">
+              <div>
                 {keys.geminiKey.trim() ? (
-                  <span className="text-[11px] text-[#19B6A6] flex items-center gap-1 font-medium">
-                    <CheckCircle2 className="w-3 h-3" /> Custom Key Active
+                  <span className="text-[11px] text-[#19B6A6] flex items-center gap-1 font-medium bg-[#19B6A6]/10 px-2 py-0.5 rounded-md border border-[#19B6A6]/20">
+                    <CheckCircle2 className="w-3 h-3 shrink-0" /> Custom Key Active
                   </span>
                 ) : (
-                  <span className="text-[11px] text-[#19B6A6] flex items-center gap-1 font-medium px-2 py-0.5 rounded border border-[#19B6A6]/30 bg-[#19B6A6]/10">
-                    <CheckCircle2 className="w-3 h-3 text-[#19B6A6]" /> Server Key Active
+                  <span className="text-[11px] text-[#19B6A6] flex items-center gap-1 font-medium px-2 py-0.5 rounded-md border border-[#19B6A6]/30 bg-[#19B6A6]/10">
+                    <CheckCircle2 className="w-3 h-3 text-[#19B6A6] shrink-0" /> Server Key Active
                   </span>
                 )}
               </div>
             </div>
-            <div className="relative">
+            <div className="relative flex items-center">
               <input
                 type={showGemini ? 'text' : 'password'}
                 value={keys.geminiKey}
@@ -117,7 +118,7 @@ export const KeyBar: React.FC<KeyBarProps> = ({
                   borderColor: 'var(--border-card)',
                   color: 'var(--text-primary)',
                 }}
-                className="w-full border focus:border-[#F5A524] focus:outline-none rounded-lg px-3 py-2 pr-10 text-xs font-mono transition-colors"
+                className="w-full min-h-[44px] border focus:border-[#F5A524] focus:ring-2 focus:ring-[#F5A524]/20 focus:outline-none rounded-xl px-3.5 py-2.5 pr-12 text-xs font-mono transition-all duration-180"
                 autoComplete="off"
                 spellCheck={false}
               />
@@ -125,10 +126,11 @@ export const KeyBar: React.FC<KeyBarProps> = ({
                 type="button"
                 onClick={() => setShowGemini(!showGemini)}
                 style={{ color: 'var(--text-secondary)' }}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 hover:opacity-80 transition-opacity p-1"
+                className="absolute right-1 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center hover:text-[var(--text-primary)] transition-colors cursor-pointer rounded-lg"
                 title={showGemini ? 'Hide key' : 'Show key'}
+                aria-label={showGemini ? 'Hide Gemini API key' : 'Show Gemini API key'}
               >
-                {showGemini ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                {showGemini ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
           </div>
@@ -137,16 +139,16 @@ export const KeyBar: React.FC<KeyBarProps> = ({
         {/* Quick actions for testing / sample data */}
         <div
           style={{ borderColor: 'var(--border-subtle)' }}
-          className="flex sm:flex-col items-center sm:items-stretch gap-2 shrink-0 w-full sm:w-auto pt-2 lg:pt-0 border-t sm:border-t-0"
+          className="flex flex-col sm:flex-row lg:flex-col items-stretch gap-2.5 shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0"
         >
           <button
             type="button"
             onClick={onLoadDemoData}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-slate-900 bg-gradient-to-r from-[#19B6A6] to-[#25D4C0] hover:brightness-105 rounded-lg shadow-sm transition-all"
+            className="min-h-[44px] px-4 py-2.5 text-xs font-bold text-slate-950 bg-[#19B6A6] hover:bg-[#169f91] active:scale-[0.98] rounded-xl shadow-xs transition-all duration-180 flex items-center justify-center gap-2 cursor-pointer"
             title="Load sample test responses"
           >
-            <Sparkles className="w-3.5 h-3.5 text-slate-950" />
-            Load Sample Data
+            <Sparkles className="w-4 h-4 text-slate-950 shrink-0" />
+            <span>Load Sample Data</span>
           </button>
 
           {hasBenchmarkData && (
@@ -154,9 +156,10 @@ export const KeyBar: React.FC<KeyBarProps> = ({
               type="button"
               onClick={onClearData}
               style={{ color: 'var(--text-secondary)' }}
-              className="px-3 py-1.5 text-xs hover:text-red-500 rounded-lg transition-colors border border-transparent hover:border-red-400/40 text-center"
+              className="min-h-[44px] px-3.5 py-2 text-xs hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all duration-180 border border-transparent hover:border-red-400/30 flex items-center justify-center gap-1.5 cursor-pointer"
             >
-              Clear Stored Data
+              <Trash2 className="w-3.5 h-3.5" />
+              <span>Clear Stored Data</span>
             </button>
           )}
         </div>
@@ -167,17 +170,17 @@ export const KeyBar: React.FC<KeyBarProps> = ({
           borderColor: 'var(--border-subtle)',
           color: 'var(--text-secondary)',
         }}
-        className="mt-2.5 pt-2 border-t flex flex-wrap items-center justify-between text-[11px] gap-2"
+        className="mt-3 pt-3 border-t flex flex-col sm:flex-row items-start sm:items-center justify-between text-[11px] gap-2 leading-relaxed"
       >
         <span>
           Keys stay in memory only for the session and are never saved or sent elsewhere.
         </span>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0 flex-wrap">
           <a
             href="https://openrouter.ai/keys"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#19B6A6] font-medium hover:underline"
+            className="min-h-[32px] inline-flex items-center text-[#19B6A6] font-medium hover:underline"
           >
             Get OpenRouter Key ↗
           </a>
@@ -186,7 +189,7 @@ export const KeyBar: React.FC<KeyBarProps> = ({
             href="https://aistudio.google.com/apikey"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#F5A524] font-medium hover:underline"
+            className="min-h-[32px] inline-flex items-center text-[#F5A524] font-medium hover:underline"
           >
             Get Gemini Key ↗
           </a>

@@ -1,15 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
 :root {
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 
-  /* Light theme: off-white background, white cards, dark navy text, muted grey secondary */
+  /* Light theme: off-white background #F3F5FB, white cards, dark navy text */
   --bg-app: #F3F5FB;
   --bg-card: #FFFFFF;
   --bg-surface: #F8FAFD;
@@ -24,6 +25,9 @@
   --color-teal: #19B6A6;
   --color-amber: #F5A524;
   --color-red: #EF4444;
+
+  --shadow-card: 0 1px 3px rgba(11, 20, 55, 0.05), 0 1px 2px rgba(11, 20, 55, 0.03);
+  --shadow-card-hover: 0 4px 12px rgba(11, 20, 55, 0.08);
 }
 
 .dark {
@@ -38,29 +42,53 @@
   --text-primary: #FFFFFF;
   --text-secondary: #A3AED0;
   --text-muted: #707EAE;
+
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-card-hover: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+html {
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 body {
-  background-color: var(--bg-app);
-  color: var(--text-primary);
-  overflow-x: hidden;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-/* Ensure nothing overflows horizontally */
-html, body {
+  background-color: var(--bg-app) !important;
+  color: var(--text-primary) !important;
   max-width: 100vw;
   overflow-x: hidden;
+  line-height: 1.5;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
-/* Custom scrollbars */
+/* Ensure long text, code, URLs wrap properly */
+.break-anywhere {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Scrollable container with hidden scrollbar for compact mobile tabs */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbars for code blocks and tables */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-app);
+  background: var(--bg-surface);
 }
 
 ::-webkit-scrollbar-thumb {

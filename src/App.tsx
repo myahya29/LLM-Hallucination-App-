@@ -26,17 +26,8 @@ import { generateSampleResults } from './utils/sampleData';
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('ask');
 
-  // Theme state: defaults to system preference
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    if (
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    ) {
-      return 'dark';
-    }
-    return 'dark';
-  });
+  // Theme state: defaults to dark or system preference
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
   // Sync theme to root element
   useEffect(() => {
@@ -147,7 +138,7 @@ export default function App() {
         backgroundColor: 'var(--bg-app)',
         color: 'var(--text-primary)',
       }}
-      className="min-h-screen flex flex-col transition-colors"
+      className="min-h-screen flex flex-col transition-colors duration-180 max-w-full overflow-x-hidden"
     >
       {/* Top Bar Header */}
       <Header
@@ -157,7 +148,7 @@ export default function App() {
         onToggleTheme={handleToggleTheme}
       />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-6 space-y-6">
         {/* Intro definition cards */}
         <IntroCards />
 
@@ -233,16 +224,26 @@ export default function App() {
         )}
       </main>
 
-      {/* Simple Centered Footer */}
+      {/* Task 2: Single clean row footer, separated by thin top border */}
       <footer
         style={{
           borderTopColor: 'var(--border-subtle)',
           backgroundColor: 'var(--bg-card)',
           color: 'var(--text-secondary)',
         }}
-        className="mt-12 border-t py-6 text-xs text-center transition-colors"
+        className="mt-12 border-t py-6 px-4 sm:px-6 transition-colors duration-180"
       >
-        <p className="font-medium">Made by Muhammad Yahya and Muhammad Ayan</p>
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-center md:text-left gap-3 md:gap-4 text-xs">
+          <div className="font-medium text-[var(--text-secondary)]">
+            Instructor: Dr. Shafaque Saira Malik
+          </div>
+          <div className="font-semibold text-[var(--text-primary)]">
+            Made by Muhammad Yahya and Muhammad Ayan
+          </div>
+          <div className="font-medium text-[var(--text-secondary)]">
+            University of Balochistan
+          </div>
+        </div>
       </footer>
     </div>
   );

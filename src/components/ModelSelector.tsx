@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckSquare, Square, Layers } from 'lucide-react';
+import { CheckSquare, Square, Layers, CheckCircle2, AlertCircle, Clock } from 'lucide-react';
 import { ModelDefinition, ModelExecutionState } from '../types/benchmark';
 
 interface ModelSelectorProps {
@@ -25,29 +25,38 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
         backgroundColor: 'var(--bg-card)',
         borderColor: 'var(--border-card)',
       }}
-      className="border rounded-xl p-4 mb-6 shadow-sm transition-colors"
+      className="border rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-xs transition-colors max-w-full"
     >
       <div
         style={{ borderColor: 'var(--border-subtle)' }}
-        className="flex flex-wrap items-center justify-between gap-3 mb-3 pb-2.5 border-b"
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b"
       >
-        <div className="flex items-center gap-2">
-          <Layers className="w-4 h-4 text-[#19B6A6]" />
-          <span
-            style={{ color: 'var(--text-primary)' }}
-            className="text-sm font-bold"
-          >
-            Models
-          </span>
-          <span
-            style={{ color: 'var(--text-secondary)' }}
-            className="text-xs font-mono"
-          >
-            ({enabledCount} of {models.length} active)
-          </span>
+        <div className="flex items-center gap-2.5">
+          <div className="p-1.5 rounded-lg bg-[#19B6A6]/10 text-[#19B6A6] border border-[#19B6A6]/20 shrink-0">
+            <Layers className="w-4 h-4" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span
+                style={{ color: 'var(--text-primary)' }}
+                className="text-sm font-bold tracking-tight"
+              >
+                Target Models
+              </span>
+              <span
+                style={{ color: 'var(--text-secondary)' }}
+                className="text-xs font-mono font-medium"
+              >
+                ({enabledCount} of {models.length} active)
+              </span>
+            </div>
+            <p className="text-[11px] text-[var(--text-secondary)]">
+              Choose which models to compare across tests
+            </p>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <button
             type="button"
             disabled={isExecuting}
@@ -57,7 +66,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
               borderColor: 'var(--border-card)',
               color: 'var(--text-primary)',
             }}
-            className="text-xs px-2.5 py-1 border rounded hover:opacity-85 transition-opacity disabled:opacity-50"
+            className="min-h-[44px] px-3.5 py-2 text-xs font-semibold border rounded-xl hover:border-[#19B6A6] hover:text-[#19B6A6] transition-all duration-180 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center active:scale-95 shadow-xs"
           >
             Select All
           </button>
@@ -70,14 +79,15 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
               borderColor: 'var(--border-card)',
               color: 'var(--text-secondary)',
             }}
-            className="text-xs px-2.5 py-1 border rounded hover:opacity-85 transition-opacity disabled:opacity-50"
+            className="min-h-[44px] px-3.5 py-2 text-xs font-semibold border rounded-xl hover:border-red-400 hover:text-red-500 transition-all duration-180 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center active:scale-95 shadow-xs"
           >
             Clear All
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+      {/* Grid: 1 col on phone, 2 on tablet, 3 on laptop (1280px+) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
         {models.map((model) => {
           const state = executionStates[model.id];
           const isCalling = state?.status === 'calling';
@@ -94,11 +104,13 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                 borderColor: model.enabled ? 'var(--border-card)' : 'transparent',
                 opacity: model.enabled ? 1 : 0.6,
               }}
-              className={`flex items-start gap-2.5 p-2.5 rounded-lg border transition-all cursor-pointer ${
-                isCalling ? 'ring-2 ring-[#19B6A6] animate-pulse' : ''
-              } ${isRetrying ? 'ring-2 ring-[#F5A524]' : ''} ${
-                isExecuting ? 'cursor-not-allowed' : ''
-              }`}
+              className={`flex items-start gap-3 p-3.5 rounded-xl border transition-all duration-180 cursor-pointer min-h-[56px] select-none ${
+                isCalling
+                  ? 'ring-2 ring-[#19B6A6] bg-[#19B6A6]/5'
+                  : isRetrying
+                  ? 'ring-2 ring-[#F5A524] bg-[#F5A524]/5'
+                  : 'hover:border-[#19B6A6]/40'
+              } ${isExecuting ? 'cursor-not-allowed' : 'active:scale-[0.99]'}`}
             >
               <div className="pt-0.5 shrink-0 text-[#19B6A6]">
                 {model.enabled ? (
@@ -112,20 +124,20 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
               </div>
 
               <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-1 mb-0.5">
+                <div className="flex items-center justify-between gap-1.5 mb-0.5">
                   <span
                     style={{ color: 'var(--text-primary)' }}
-                    className="text-xs font-semibold truncate"
+                    className="text-xs sm:text-sm font-semibold truncate"
                   >
                     {model.name}
                   </span>
                   <span
-                    className={`text-[10px] font-mono px-1.5 py-0.5 rounded shrink-0 font-medium ${
+                    className={`text-[10px] font-mono px-2 py-0.5 rounded-md shrink-0 font-bold border ${
                       model.provider === 'gemini'
-                        ? 'text-[#F5A524] bg-[#F5A524]/15'
+                        ? 'text-[#F5A524] bg-[#F5A524]/15 border-[#F5A524]/30'
                         : model.provider === 'manual'
-                        ? 'text-indigo-500 bg-indigo-500/15'
-                        : 'text-[#19B6A6] bg-[#19B6A6]/15'
+                        ? 'text-indigo-400 bg-indigo-500/15 border-indigo-500/30'
+                        : 'text-[#19B6A6] bg-[#19B6A6]/15 border-[#19B6A6]/30'
                     }`}
                   >
                     {model.provider === 'openrouter'
@@ -140,31 +152,36 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                   style={{ color: 'var(--text-secondary)' }}
                   className="text-[11px] truncate font-mono"
                 >
-                  {model.modelKey}
+                  {model.badge}
                 </div>
 
                 {/* Status indicator during execution */}
                 {state && (
-                  <div className="mt-1 flex items-center gap-1.5 text-[11px] font-medium">
+                  <div className="mt-2 flex items-center gap-1.5 text-[11px] font-semibold flex-wrap">
                     {isCalling && (
-                      <span className="text-[#19B6A6] flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-[#19B6A6] animate-ping" />
+                      <span className="text-[#19B6A6] flex items-center gap-1.5 bg-[#19B6A6]/10 px-2 py-0.5 rounded-md border border-[#19B6A6]/30 animate-pulse">
+                        <span className="w-2 h-2 rounded-full bg-[#19B6A6]" />
                         Generating...
                       </span>
                     )}
                     {isRetrying && (
-                      <span className="text-[#F5A524] flex items-center gap-1">
+                      <span className="text-[#F5A524] flex items-center gap-1.5 bg-[#F5A524]/10 px-2 py-0.5 rounded-md border border-[#F5A524]/30">
                         <span className="w-2 h-2 rounded-full bg-[#F5A524] animate-bounce" />
                         Auto-retrying...
                       </span>
                     )}
                     {isSuccess && (
-                      <span className="text-emerald-600 dark:text-emerald-400">
-                        Done {state.latencyMs ? `(${Math.round(state.latencyMs / 100) / 10}s)` : ''}
+                      <span className="text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded-md flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Done {state.latencyMs ? `(${(state.latencyMs / 1000).toFixed(1)}s)` : ''}
                       </span>
                     )}
                     {isError && (
-                      <span className="text-red-500 truncate" title={state.errorMessage}>
+                      <span
+                        className="text-rose-600 dark:text-rose-400 bg-rose-500/15 border border-rose-500/30 px-2 py-0.5 rounded-md flex items-center gap-1 truncate max-w-full"
+                        title={state.errorMessage}
+                      >
+                        <AlertCircle className="w-3 h-3 shrink-0" />
                         {state.errorMessage?.includes('429') ? 'Rate Limited' : 'Failed'}
                       </span>
                     )}
